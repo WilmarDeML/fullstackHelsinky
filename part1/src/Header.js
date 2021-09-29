@@ -1,8 +1,9 @@
 import { React } from 'react'
 
 const Header = ({ course }) => (
+    
     <h1>
-        {course}
+        {course.name}
     </h1>
 )
 
