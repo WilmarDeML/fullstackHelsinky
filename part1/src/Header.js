@@ -1,4 +1,5 @@
 import { React } from 'react'
+
 const Header = ({ course }) => (
     <h1>
         {course}
