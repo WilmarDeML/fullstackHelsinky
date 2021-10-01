@@ -12,18 +12,9 @@ const Counter = () => {
     return (
         <>
         <Display counter={counter} />
-        <Button
-            handleClick={increaseByOne}
-            text='plus'
-        />
-        <Button
-            handleClick={setToZero}
-            text='zero'
-        />     
-        <Button
-            handleClick={decreaseByOne}
-            text='minus'
-        />           
+        <Button onClick={decreaseByOne} text='minus' />           
+        <Button onClick={setToZero} text='zero' />     
+        <Button onClick={increaseByOne} text='plus' />
         </>
     )
 }

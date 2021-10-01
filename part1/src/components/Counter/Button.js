@@ -1,8 +1,4 @@
 
-const Button = ({handleClick, text}) => (
-    <button onClick={handleClick}>
-        {text}
-    </button>
-)
+const Button = ({ onClick, text }) => <button onClick={onClick} name={text}>{text}</button>
 
 export default Button
