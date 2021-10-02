@@ -7,7 +7,7 @@ import { React } from 'react'
 // import Remember from './components/Remember/index'
 // import SetValues from './SetValues'
 
-import UnicafeFeedBacks from './unicafe'
+import Statistics from './unicafe'
 const App = () => {
   
   // const course = {
@@ -37,7 +37,7 @@ const App = () => {
 
   return (
     <div>
-      <UnicafeFeedBacks />
+      <Statistics />
 
       {/* <Header course={course} />
       <Content course={course} />
