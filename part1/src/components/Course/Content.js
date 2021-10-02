@@ -3,7 +3,7 @@ import Part from './Part'
 
 const Content = ({ course }) => (    
     <>
-        { course.parts.map(part => <Part part={part} />)}
+        { course.parts.map((part, i) => <Part part={part} key={i}/>)}
     </>
 )
 

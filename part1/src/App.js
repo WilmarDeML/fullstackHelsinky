@@ -1,13 +1,13 @@
 import { React } from 'react'
-import Header from './Header'
-import Content from './Content'
-import Total from './Total'
-import Hello from './Hello'
+import Header from './components/Course/Header'
+import Content from './components/Course/Content'
+import Total from './components/Course/Total'
+import Hello from './components/Hello'
 import Counter from './components/Counter/Counter'
 import Remember from './components/Remember/index'
-import SetValues from './SetValues'
-
-import Statistics from './unicafe'
+import SetValues from './components/SetValues/SetValues'
+import Unicafe from './unicafe'
+import Anecdotes from './anecdotes'
 const App = () => {
   
   const course = {
@@ -41,7 +41,9 @@ const App = () => {
       <Content course={course} />
       <Total course={course} />
 
-      <Statistics />
+      <Anecdotes />
+
+      <Unicafe />
 
       <h1>Set Values</h1>
       <SetValues />
@@ -51,7 +53,7 @@ const App = () => {
       <Remember />
 
       <h1>Greetings</h1>
-      <Hello name="Sandra" age={26 - 4} />
+      <Hello name="Sandra" age={26 - 3} />
       <Hello name={name} age={age} />
     </div>
   )
