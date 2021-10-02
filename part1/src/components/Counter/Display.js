@@ -1,5 +1,5 @@
 import { React } from 'react' 
 
-const Display = ({ counter, text, text2 }) => <div>{text} {counter} {text2}</div>
+const Display = ({ counter, text }) => <div>{text} {counter}</div>
 
 export default Display

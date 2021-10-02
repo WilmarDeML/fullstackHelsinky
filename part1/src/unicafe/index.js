@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Button from '../components/Counter/Button'
-import DisplayStatistics from './Statistics'
+import Statistics from './Statistics'
 
 const Unicafe = () => {
     
@@ -27,9 +27,8 @@ const Unicafe = () => {
       <Button onClick={countFeedBack} text='neutral' />
       <Button onClick={countFeedBack} text='bad' />
       
-      <h1>Statistics</h1>
       {feedBacks.all === 0 ? <h3>No feedback given</h3> :
-        <DisplayStatistics feedBacks={feedBacks} />
+        <Statistics feedBacks={feedBacks} />
       }
     </div>
   )
