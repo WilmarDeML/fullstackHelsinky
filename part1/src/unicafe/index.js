@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Button from '../components/Counter/Button'
-import DisplayStatistics from './DisplayStatistics'
+import DisplayStatistics from './Statistics'
 
-const Statistics = () => {
+const Unicafe = () => {
     
   const [ feedBacks, setFeedBacks ] = useState({
     good: 0,
@@ -35,4 +35,4 @@ const Statistics = () => {
   )
 }
 
-export default Statistics
+export default Unicafe

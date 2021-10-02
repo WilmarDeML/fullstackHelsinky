@@ -1,6 +1,6 @@
 import Display from '../components/Counter/Display'
 
-const DisplayStatistics = ({ feedBacks }) => {
+const Statistics = ({ feedBacks }) => {
 
     const positive = feedBacks.all > 0 ? feedBacks.good * 100 / feedBacks.all : 0
     const negative = feedBacks.all > 0 ? feedBacks.bad * 100 / feedBacks.all : 0
@@ -11,40 +11,40 @@ const DisplayStatistics = ({ feedBacks }) => {
         <Display 
             counter={feedBacks.good}
             text='Good'
-          />
-          <Display 
+        />
+        <Display 
             counter={feedBacks.neutral}
             text='Neutral'
-          />
-          <Display 
+        />
+        <Display 
             counter={feedBacks.bad}
             text='Bad'
-          /> 
-          <Display 
+        /> 
+        <Display 
             counter={feedBacks.all}
             text='All'
-          />
-          <Display 
+        />
+        <Display 
             counter={average}
             text='Average'
-          />
-          <Display 
+        />
+        <Display 
             counter={positive}
             text='Positive'
             text2='%'
-          />     
-          <Display 
+        />     
+        <Display 
             counter={negative}
             text='Negative'
             text2='%'
-          />      
-          <Display 
+        />      
+        <Display 
             counter={neutral}
             text='Neutral'
             text2='%'
-          />   
+        />   
         </>
     )
 }
 
-export default DisplayStatistics
+export default Statistics
