@@ -11,7 +11,7 @@ const Content = ({parts}) => {
                     exercises={part.exercises} 
                 />
             ))}
-            <strong><li>total of {total} exercises</li></strong>
+            <strong><label>total of {total} exercises</label></strong>
         </ul>
     )
 }
