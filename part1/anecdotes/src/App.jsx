@@ -12,25 +12,54 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const [selected, setSelected] = useState(0)
+  const obtainRandom = () => {
+    return Math.floor(Math.random() * anecdotes.length)
+  }
+
+  const [selected, setSelected] = useState(obtainRandom)
   const [votes, setVotes] = useState(anecdotes.map(() => 0))
+  const [indexWithMostVotes, setIndexWithMostVotes] = useState(-1)
 
   const nextAnecdote = () => {
-    setSelected(Math.floor(Math.random() * anecdotes.length))
+    setSelected(obtainRandom)
   }
 
   const voteAnecdote = () => {
     const copyVotes = [...votes]
     copyVotes[selected]++
+
+    if (indexWithMostVotes < 0 || copyVotes[selected] >= copyVotes[indexWithMostVotes]) {
+      setIndexWithMostVotes(selected)
+    }
+
     setVotes(copyVotes)
+  }
+
+  const Anecdote = ({anecdotes, index, votes}) => {
+    if (index < 0) {
+      return (
+        <p>No anecdotes have been voted</p>
+      )
+    }
+
+    return (
+      <div>
+        <p>{anecdotes[index]}</p>
+        <p>Has {votes[index]} {votes[index] > 1 ? 'votes' : 'vote'}</p>
+      </div>
+    )
   }
   
   return (
     <>
-      <p> {anecdotes[selected]} </p>
-      <p>Has {votes[selected]} {votes[selected] > 1 ? 'votes' : 'vote'}</p>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdotes={anecdotes} index={selected} votes={votes} />
+
       <button onClick={voteAnecdote}>Vote</button>
       <button onClick={nextAnecdote}>Next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdotes={anecdotes} index={indexWithMostVotes} votes={votes} />
     </>
   )
 }
