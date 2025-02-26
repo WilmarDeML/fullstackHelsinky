@@ -8,7 +8,18 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPersons([...persons, { name: newName }])
+
+    const name = newName.trim()
+
+    if (!name) {
+      return alert('Please enter a name')
+    }
+
+    if (persons.some((person) => person.name === name)) {
+      return alert(`${name} is already added to phonebook`)
+    }
+
+    setPersons([...persons, { name }])
     setNewName('')
   }
 
