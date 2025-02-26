@@ -1,5 +1,44 @@
 import { useState } from 'react'
 
+const Filter = ({ filter, changeFilter, text }) => (
+  <>
+    {text} <input type="text" value={filter} onChange={changeFilter} />
+  </>
+)
+
+const PersonForm = ({ submit, name, changeName, number, changeNumber }) => (
+  <>
+    <form onSubmit={submit}>
+      <div>
+        name: <input type="text" value={name} onChange={changeName} />
+      </div>
+      <div>
+        number: <input type='text' value={number} onChange={changeNumber} />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  </>
+)
+
+const Person = ({ person: { name, number } }) => (
+  <p>
+    {name} {number}
+  </p>
+)
+
+const Persons = ({ persons, filter }) => {
+  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.trim()?.toLowerCase()))
+  return (
+    <>
+      {filteredPersons.map(person => (
+        <Person key={person.name} person={person} />
+      ))}
+    </>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -29,39 +68,28 @@ const App = () => {
       return alert(`${name} is already added to phonebook`)
     }
 
-    setPersons([...persons, { name, number }])
+    setPersons([...persons, { name, number, id: persons[persons.length - 1].id + 1 }])
     setNewName('')
     setNewNumber('')
   }
 
+  const changeFilter = e => setFilter(e.target.value)
+  const changeName = e => setNewName(e.target.value)
+  const changeNumber = e => setNewNumber(e.target.value)
+
   return (
     <>
-      <h2>Phonebook</h2>
-      <div>
-        filter shown with <input type="text" value={filter} onChange={(e) => setFilter(e.target.value)} />
-      </div>
+      <h1>Phonebook</h1>
+      <Filter filter={filter} changeFilter={changeFilter} text="filter shown with" />
+
       <h2>Add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number: <input type='text' value={newNumber} onChange={(e) => setNewNumber(e.target.value)} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm submit={handleSubmit} 
+        name={newName} changeName={changeName} 
+        number={newNumber} changeNumber={changeNumber} 
+      />
+      
       <h2>Numbers</h2>
-      {!filter ? persons.map((person) => (
-        <div key={person.name}>
-          {person.name} {person.number}
-        </div>
-      )) : persons.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase())).map((person) => (
-        <div key={person.name}>
-          {person.name} {person.number}
-        </div>
-      ))}
+      <Persons persons={persons} filter={filter} />
     </>
   )
 }
