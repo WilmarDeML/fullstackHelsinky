@@ -34,19 +34,19 @@ const Persons = ({ persons, filter, deletePerson }) => {
   return (
     <>
       {filteredPersons.map(person => (
-        <Person key={person.name} person={person} deletePerson={deletePerson} />
+        <Person key={person.id} person={person} deletePerson={deletePerson} />
       ))}
     </>
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, err }) => {
   if (!message) {
     return
   }
 
   return (
-    <div className="notification">
+    <div className={err ? 'error' : 'notification'}>
       {message}
     </div>
   )
@@ -58,9 +58,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState('')
+  const [error, setError] = useState(false)
 
-  const addNotification = (message) => {
+  const addNotification = (message, err) => {
     setNotificationMessage(message)
+    setError(err)
     setTimeout(() => setNotificationMessage(''), 3000)
   }
 
@@ -69,6 +71,10 @@ const App = () => {
     return window.confirm(`Delete ${personToDelete.name}?`)
       ? personService.deleteOne(id)
         .then(() => setPersons(persons.filter(person => person.id !== id)))
+        .catch((err) => {
+          addNotification(`Information of ${personToDelete.name} has already been removed from server`, err)
+          console.error(err.message)
+        })
       : null
   }
 
@@ -92,6 +98,10 @@ const App = () => {
             setPersons(persons.map(person => person.id === personFound.id ? { ...person, number } : person))
             setNewName('')
             setNewNumber('')
+          })
+          .catch((err) => {
+            addNotification(`Information of ${personFound.name} has already been removed from server`, err)
+            console.error(err.message)
           })
       }
       return
@@ -118,7 +128,7 @@ const App = () => {
   return (
     <>
       <h1>Phonebook</h1>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} err={error} />
       <Filter filter={filter} changeFilter={changeFilter} text="filter shown with" />
 
       <h2>Add a new</h2>

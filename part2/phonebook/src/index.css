@@ -1,4 +1,4 @@
-.notification {
+.notification, .error {
   color: green;
   background: lightgrey;
   font-size: 20px;
@@ -6,4 +6,8 @@
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+.error {
+  color: red;
 }
