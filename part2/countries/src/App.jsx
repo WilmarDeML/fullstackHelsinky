@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const Filter = ({ filter, changeFilter, text }) => (
   <>
-    {text} <input type="text" value={filter} onChange={changeFilter} />
+    {text} <input type="text" value={filter} onChange={e => changeFilter(e.target.value)} />
   </>
 )
 
@@ -25,7 +25,7 @@ const Country = ({ country }) => (
   </>
 )
 
-const Countries = ({ countries, filter }) => {
+const Countries = ({ countries, filter, changeFilter }) => {
 
   if (!filter) {
     return
@@ -38,7 +38,6 @@ const Countries = ({ countries, filter }) => {
   }
 
   if (filteredCountries.length === 1) {
-    console.log(filteredCountries[0])
     return <Country country={filteredCountries[0]} />
   }
 
@@ -49,7 +48,12 @@ const Countries = ({ countries, filter }) => {
   return (
     <>
       {filteredCountries.map(country => (
-        <h3 key={country.fifa}>{country.name.common}</h3>
+        <h3 key={country.cca2}>
+          {country.name.common} 
+          <button onClick={() => changeFilter(country.name.common)} style={{ marginLeft: 5 }}>
+            Show
+          </button>
+        </h3>
       ))}
     </>
   )
@@ -66,13 +70,10 @@ const App = () => {
     })
   }, [])
 
-  const changeFilter = e => setFilter(e.target.value)
-
   return (
     <>
-      <Filter filter={filter} changeFilter={changeFilter} text="find countries" />
-
-      <Countries countries={countries} filter={filter} />
+      <Filter filter={filter} changeFilter={setFilter} text="find countries" />
+      <Countries countries={countries} filter={filter} changeFilter={setFilter} />
     </>
   )
 }
