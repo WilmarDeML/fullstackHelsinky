@@ -60,16 +60,22 @@ const App = () => {
     const name = newName.trim()
     const number = newNumber.trim()
 
-    if (!name) {
-      return alert('Please enter a name')
+    if (!name || !number) {
+      return alert(!name ? 'Please enter a name' : 'Please enter a number')
     }
 
-    if (!number) {
-      return alert('Please enter a number')
-    }
+    const personFound = persons.find(person => person.name === name)
 
-    if (persons.some((person) => person.name === name)) {
-      return alert(`${name} is already added to phonebook`)
+    if (personFound) {
+      if(window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+        personService.update(personFound.id, { ...personFound, number })
+          .then(() => {
+            setPersons(persons.map(person => person.id === personFound.id ? { ...person, number } : person))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
+      return
     }
 
     personService.create({ name, number })
