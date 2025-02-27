@@ -10,4 +10,9 @@ const create = (person) => {
     .then(res => res.data)
 }
 
-export default { getAll, create }
+const deleteOne = (id) => {
+  return axios.delete(`http://localhost:3001/persons/${id}`)
+    .then(res => res.data) // Retornará el objeto que se ha borrado
+}
+
+export default { getAll, create, deleteOne }

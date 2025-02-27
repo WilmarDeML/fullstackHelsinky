@@ -23,18 +23,18 @@ const PersonForm = ({ submit, name, changeName, number, changeNumber }) => (
   </>
 )
 
-const Person = ({ person: { name, number } }) => (
+const Person = ({ person: { name, number, id }, deletePerson }) => (
   <p>
-    {name} {number}
+    {name} {number} <button onClick={() => deletePerson(id)}>delete</button>
   </p>
 )
 
-const Persons = ({ persons, filter }) => {
+const Persons = ({ persons, filter, deletePerson }) => {
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.trim()?.toLowerCase()))
   return (
     <>
       {filteredPersons.map(person => (
-        <Person key={person.name} person={person} />
+        <Person key={person.name} person={person} deletePerson={deletePerson} />
       ))}
     </>
   )
@@ -45,6 +45,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+  const deletePerson = id => {
+    const personToDelete = persons.find(person => person.id === id)
+    return window.confirm(`Delete ${personToDelete.name}?`)
+      ? personService.deleteOne(id)
+        .then(() => setPersons(persons.filter(person => person.id !== id)))
+      : null
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -91,7 +99,7 @@ const App = () => {
       />
       
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson} />
     </>
   )
 }
