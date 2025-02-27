@@ -40,11 +40,29 @@ const Persons = ({ persons, filter, deletePerson }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (!message) {
+    return
+  }
+
+  return (
+    <div className="notification">
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState('')
+
+  const addNotification = (message) => {
+    setNotificationMessage(message)
+    setTimeout(() => setNotificationMessage(''), 3000)
+  }
 
   const deletePerson = id => {
     const personToDelete = persons.find(person => person.id === id)
@@ -70,6 +88,7 @@ const App = () => {
       if(window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
         personService.update(personFound.id, { ...personFound, number })
           .then(() => {
+            addNotification(`Updated ${personFound.name}`)
             setPersons(persons.map(person => person.id === personFound.id ? { ...person, number } : person))
             setNewName('')
             setNewNumber('')
@@ -79,7 +98,10 @@ const App = () => {
     }
 
     personService.create({ name, number })
-      .then(newPerson => setPersons([...persons, newPerson]))
+      .then(newPerson => {
+        addNotification(`Added ${newPerson.name}`)
+        setPersons([...persons, newPerson])
+      })
 
     setNewName('')
     setNewNumber('')
@@ -96,6 +118,7 @@ const App = () => {
   return (
     <>
       <h1>Phonebook</h1>
+      <Notification message={notificationMessage} />
       <Filter filter={filter} changeFilter={changeFilter} text="filter shown with" />
 
       <h2>Add a new</h2>
