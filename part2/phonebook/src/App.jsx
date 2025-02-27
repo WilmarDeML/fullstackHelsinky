@@ -64,7 +64,9 @@ const App = () => {
       return alert(`${name} is already added to phonebook`)
     }
 
-    setPersons([...persons, { name, number, id: persons[persons.length - 1].id + 1 }])
+    axios.post('http://localhost:3001/persons', { name, number })
+      .then(res => setPersons([...persons, res.data]))
+
     setNewName('')
     setNewNumber('')
   }
