@@ -1,56 +1,10 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
+import Filter from './components/Filter'
 
-const Filter = ({ filter, changeFilter, text }) => (
-  <>
-    {text} <input type="text" value={filter} onChange={changeFilter} />
-  </>
-)
-
-const PersonForm = ({ submit, name, changeName, number, changeNumber }) => (
-  <>
-    <form onSubmit={submit}>
-      <div>
-        name: <input type="text" value={name} onChange={changeName} />
-      </div>
-      <div>
-        number: <input type='text' value={number} onChange={changeNumber} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
-  </>
-)
-
-const Person = ({ person: { name, number, id }, deletePerson }) => (
-  <p>
-    {name} {number} <button onClick={() => deletePerson(id)}>delete</button>
-  </p>
-)
-
-const Persons = ({ persons, filter, deletePerson }) => {
-  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.trim()?.toLowerCase()))
-  return (
-    <>
-      {filteredPersons.map(person => (
-        <Person key={person.id} person={person} deletePerson={deletePerson} />
-      ))}
-    </>
-  )
-}
-
-const Notification = ({ message, err }) => {
-  if (!message) {
-    return
-  }
-
-  return (
-    <div className={err ? 'error' : 'notification'}>
-      {message}
-    </div>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
