@@ -1,28 +1,4 @@
-import { useState, useEffect } from 'react'
-import apisService from '../services/apis'
-
-const Capital = ({ city }) => {
-  const [weather, setWeather] = useState({})
-  const [imgUrl, setImgUrl] = useState(null)
-
-  useEffect(() => {
-    apisService.getWeather(city).then(data => {
-      setWeather(data)
-      setImgUrl(`https://openweathermap.org/img/wn/${data.weather[0]?.icon}@2x.png`)
-    })    
-  }, [])
-
-  return (
-    <>
-      <h2>Weather in {city}</h2>
-      <p>Temperature {weather.main?.temp} Celsius</p>
-      <figure>
-        <img src={imgUrl} alt={weather[0]?.description} width={150} />
-      </figure>
-      <p>Wind {weather.wind?.speed} m/s</p>
-    </>
-  )
-}
+import CapitalWeather from './CapitalWeather'
 
 const Country = ({ country }) => (
   <>
@@ -39,7 +15,7 @@ const Country = ({ country }) => (
     <figure>
       <img src={country.flags.svg} alt={country.name.common} width={200} />
     </figure>
-    <Capital city={country.capital[0]} />
+    <CapitalWeather city={country.capital[0]} />
   </>
 )
 
