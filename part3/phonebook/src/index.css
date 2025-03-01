@@ -1,3 +1,33 @@
+h1 {
+  color: #98a6d4;
+}
+
+h2 {
+  color: #c2f970;
+}
+
+button {
+  background: #564d80;
+  border: solid 1px #d3fcd5;
+  border-radius: .5rem;
+  padding: .3rem;
+  color: #d3fcd5;
+
+  &:hover {
+    background: #d3fcd5;
+    color: #564d80;
+    cursor: pointer;
+  }
+}
+
+.app {
+  font-family: 'sistem-ui, Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background: #44344f;
+  color: #d3fcd5;
+  padding: 2%;
+  border-radius: 3rem;
+}
+
 .notification, .error {
   color: green;
   background: lightgrey;

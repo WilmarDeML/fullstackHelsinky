@@ -80,7 +80,7 @@ const App = () => {
   }, [])
 
   return (
-    <>
+    <div className="app" >
       <h1>Phonebook</h1>
       <Notification message={notificationMessage} err={error} />
       <Filter filter={filter} changeFilter={changeFilter} text="filter shown with" />
@@ -93,7 +93,7 @@ const App = () => {
       
       <h2>Numbers</h2>
       <Persons persons={persons} filter={filter} deletePerson={deletePerson} />
-    </>
+    </div>
   )
 }
 
