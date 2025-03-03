@@ -17,7 +17,7 @@ const App = () => {
   const addNotification = (message, err) => {
     setNotificationMessage(message)
     setError(err)
-    setTimeout(() => setNotificationMessage(''), 3000)
+    setTimeout(() => setNotificationMessage(''), 5000)
   }
 
   const deletePerson = id => {
@@ -65,10 +65,14 @@ const App = () => {
       .then(newPerson => {
         addNotification(`Added ${newPerson.name}`)
         setPersons([...persons, newPerson])
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch((err) => {
+        addNotification(`${err.response.data.error}`, err)
+        console.error(err.response.data.error)
       })
 
-    setNewName('')
-    setNewNumber('')
   }
 
   const changeFilter = e => setFilter(e.target.value)
