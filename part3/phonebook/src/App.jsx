@@ -54,8 +54,9 @@ const App = () => {
             setNewNumber('')
           })
           .catch((err) => {
-            addNotification(`Information of ${personFound.name} has already been removed from server`, err)
-            console.error(err.message)
+            const errorMessage = err.response?.data?.error ?? err.message
+            addNotification(errorMessage, err)
+            console.error(errorMessage)
           })
       }
       return
@@ -69,10 +70,10 @@ const App = () => {
         setNewNumber('')
       })
       .catch((err) => {
-        addNotification(`${err.response.data.error}`, err)
-        console.error(err.response.data.error)
+        const errorMessage = err.response?.data?.error ?? err.message
+        addNotification(errorMessage, err)
+        console.error(errorMessage)
       })
-
   }
 
   const changeFilter = e => setFilter(e.target.value)
