@@ -1,14 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-
-const toggleVotesOf = (id) => ({
-  type: 'TOGGLE_VOTES_OF',
-  payload: id
-})
-
-const createAnecdote = (anecdote) => ({
-  type: 'CREATE_ANECDOTE',
-  payload: anecdote
-})
+import { toggleVotesOf, createAnecdote } from '/src/reducers/anecdoteReducer'
 
 const App = () => {
   const anecdotes = useSelector(state => state.anecdotes.sort((a, b) => b.votes - a.votes))

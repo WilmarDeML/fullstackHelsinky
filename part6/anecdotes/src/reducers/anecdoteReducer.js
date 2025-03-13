@@ -19,7 +19,7 @@ const asObject = (anecdote) => {
   }
 }
 
-const toggleVotesOf = (state, id) => {
+const toggleVotes = (state, id) => {
   return state.map(anecdote => {
     if (anecdote.id === id) {
       return {...anecdote, votes: anecdote.votes + 1}
@@ -30,11 +30,11 @@ const toggleVotesOf = (state, id) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
+const anecdoteReducer = (state = initialState, action) => {
   console.log('action', action)
   switch(action.type) {
     case 'TOGGLE_VOTES_OF':
-      return toggleVotesOf(state, action.payload)
+      return toggleVotes(state, action.payload)
     case 'CREATE_ANECDOTE':
       return [...state, asObject(action.payload)]
     default:
@@ -42,4 +42,14 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export default reducer
+export const toggleVotesOf = (id) => ({
+  type: 'TOGGLE_VOTES_OF',
+  payload: id
+})
+
+export const createAnecdote = (anecdote) => ({
+  type: 'CREATE_ANECDOTE',
+  payload: anecdote
+})
+
+export default anecdoteReducer
