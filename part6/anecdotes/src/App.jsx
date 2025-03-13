@@ -5,12 +5,24 @@ const toggleVotesOf = (id) => ({
   payload: id
 })
 
+const createAnecdote = (anecdote) => ({
+  type: 'CREATE_ANECDOTE',
+  payload: anecdote
+})
+
 const App = () => {
   const anecdotes = useSelector(state => state.anecdotes)
   const dispatch = useDispatch()
 
   const vote = (id) => {
     dispatch(toggleVotesOf(id))
+  }
+
+  const addAnecdote = (e) => {
+    e.preventDefault()
+    const anecdote = e.target.anecdote.value
+    dispatch(createAnecdote(anecdote))
+    e.target.anecdote.value = ''
   }
 
   return (
@@ -28,8 +40,8 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
+      <form onSubmit={addAnecdote}>
+        <div><input name="anecdote" required /></div>
         <button>create</button>
       </form>
     </div>

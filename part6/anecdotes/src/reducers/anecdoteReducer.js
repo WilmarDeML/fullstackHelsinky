@@ -35,6 +35,8 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'TOGGLE_VOTES_OF':
       return toggleVotesOf(state, action.payload)
+    case 'CREATE_ANECDOTE':
+      return [...state, asObject(action.payload)]
     default:
       return state
   }
