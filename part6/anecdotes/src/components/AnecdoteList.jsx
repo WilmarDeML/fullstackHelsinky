@@ -4,7 +4,14 @@ import { toggleVotesOf } from '/src/reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
 
-  const anecdotes = useSelector(state => state.anecdotes.sort((a, b) => b.votes - a.votes))
+  const anecdotes = useSelector(({ anecdotes, filter }) => {
+    if (filter === 'ALL') {
+      return anecdotes.sort((a, b) => b.votes - a.votes)
+    }
+    return anecdotes
+      .filter(({content}) => content.includes(filter))
+      .sort((a, b) => b.votes - a.votes)
+  })
   const dispatch = useDispatch()
 
   const vote = (id) => {

@@ -4,10 +4,13 @@ import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 
 import anecdoteReducer from './reducers/anecdoteReducer'
+import filterReducer from './reducers/filterReducer.js'
+
 import App from './App.jsx'
 
 const rootReducer = combineReducers({
-  anecdotes: anecdoteReducer // <-- note reducer forms state.notes
+  anecdotes: anecdoteReducer,
+  filter: filterReducer
 });
 
 const store = createStore(rootReducer)
