@@ -65,4 +65,17 @@ export const createAnecdote = content => {
   }
 }
 
+export const toggleVotesOfAnecdote = id => {
+  return async (dispatch, getState) => {
+    const anecdoteFound = getState().anecdotes.find(anecdote => anecdote.id === id)
+    const newAnecdote = { ...anecdoteFound, votes: anecdoteFound.votes + 1 }
+    const updatedAnecdote = await anecdoteService.updateVotes(id, newAnecdote)
+    dispatch(toggleVotesOf(id))
+    dispatch(notificationChange(`You voted '${updatedAnecdote.content}'`))
+    setTimeout(() => {
+      dispatch(notificationChange(''))
+    }, 5000)
+  }
+}
+
 export default anecdoteSlice.reducer
