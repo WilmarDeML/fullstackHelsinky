@@ -29,21 +29,18 @@ const anecdoteSlice = createSlice({
   reducers: {
     createAnecdote (state, action) {
       console.log('action', action)
-      return [...state, asObject(action.payload)].sort((a, b) => b.votes - a.votes)
+      state.push(action.payload)
     },
     toggleVotesOf (state, action) {
       console.log('state', current(state))
       return toggleVotes(state, action.payload)
     },
-    appendAnecdote (state, action) {
-      state.push(action.payload)
-    },
     setAnecdotes(_state, action) {
-      return action.payload
+      return action.payload.sort((a, b) => b.votes - a.votes)
     }
   }
 })
 
-export const { createAnecdote, toggleVotesOf, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
+export const { createAnecdote, toggleVotesOf, setAnecdotes } = anecdoteSlice.actions
 
 export default anecdoteSlice.reducer
