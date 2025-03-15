@@ -6,11 +6,9 @@ const AnecdoteList = () => {
 
   const anecdotes = useSelector(({ anecdotes, filter }) => {
     if (filter === 'ALL') {
-      return anecdotes.sort((a, b) => b.votes - a.votes)
+      return anecdotes
     }
-    return anecdotes
-      .filter(({content}) => content.includes(filter))
-      .sort((a, b) => b.votes - a.votes)
+    return anecdotes.filter(({content}) => content.toLowerCase().includes(filter.toLowerCase()))
   })
   const dispatch = useDispatch()
 
