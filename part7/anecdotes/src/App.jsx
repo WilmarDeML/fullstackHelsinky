@@ -62,9 +62,9 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const content = useField('text', 'content')
-  const author = useField('text', 'author')
-  const url = useField('text', 'url')
+  const {reset:resetCont, ...content} = useField('text', 'content')
+  const {reset:resetAuth, ...author} = useField('text', 'author')
+  const {reset:resetUrl, ...url} = useField('text', 'url')
 
   const navigate = useNavigate()
 
@@ -81,6 +81,12 @@ const CreateNew = (props) => {
     setTimeout(() => props.setNotification(''), 5000)
   }
 
+  const handleReset = (e) => {
+    resetCont()
+    resetAuth()
+    resetUrl()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -89,6 +95,7 @@ const CreateNew = (props) => {
         <div>author <input {...author} /></div>
         <div>url for more info <input {...url} /></div>
         <button>create</button>
+        <button type='button' onClick={handleReset}>reset</button>
       </form>
     </div>
   )
