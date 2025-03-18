@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes, useMatch } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -14,11 +14,25 @@ const Menu = () => {
   )
 }
 
+const AnecdoteDetail = ({ anecdote }) => (
+  <>
+    <h2>{anecdote.content}</h2>
+    <p>has {anecdote.votes} votes</p>
+    <p>for more info see <a href={anecdote.url}>{anecdote.url}</a></p>
+  </>
+)
+
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote =>
+        <li key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>
+            {anecdote.content}
+          </Link>
+        </li>
+      )}
     </ul>
   </div>
 )
@@ -48,7 +62,7 @@ const Footer = () => (
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const [url, setUrl] = useState('')
 
 
   const handleSubmit = (e) => {
@@ -56,7 +70,7 @@ const CreateNew = (props) => {
     props.addNew({
       content,
       author,
-      info,
+      url,
       votes: 0
     })
   }
@@ -75,13 +89,12 @@ const CreateNew = (props) => {
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='url' value={url} onChange={(e)=> setUrl(e.target.value)} />
         </div>
         <button>create</button>
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -89,14 +102,14 @@ const App = () => {
     {
       content: 'If it hurts, do it more often',
       author: 'Jez Humble',
-      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
+      url: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: 1
     },
     {
       content: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
-      info: 'http://wiki.c2.com/?PrematureOptimization',
+      url: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
       id: 2
     }
@@ -123,12 +136,16 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  const match = useMatch('/anecdotes/:id')
+  const anecdote = anecdoteById(Number(match?.params?.id))
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
 
       <Routes>
+        <Route path='/anecdotes/:id' element={<AnecdoteDetail anecdote={anecdote} />} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
         <Route path='/about' element={<About />} />
