@@ -7,3 +7,5 @@
 ## 27 de Febrero finalizo la parte 2 de la carrera
 
 ## 15 de Marzo finalizo la parte 6 de la carrera
+
+## 22 de Marzo finalizo la parte 7 de la carrera
