@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "name": "library-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "Wilmar De MelquisedecLisbet",
+  "license": "ISC",
+  "description": "Backend de una biblioteca con graphql",
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "graphql": "^16.10.0"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}
