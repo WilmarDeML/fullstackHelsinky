@@ -12,7 +12,8 @@
   "description": "Backend de una biblioteca con graphql",
   "dependencies": {
     "@apollo/server": "^4.11.3",
-    "graphql": "^16.10.0"
+    "graphql": "^16.10.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "standard": "^17.1.2"
