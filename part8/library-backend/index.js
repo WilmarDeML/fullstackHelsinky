@@ -117,6 +117,9 @@ const typeDefs = `
       genres: [String!]!
     ): Book      
   }
+  type Mutation {
+    editAuthor(name: String!, setBornTo: Int): Author
+  }
 `
 
 const filterBooks = (_root, args) => {
@@ -146,6 +149,13 @@ const resolvers = {
       }
       books.push(book)
       return book
+    },
+    editAuthor: (_root, args) => {
+      const author = authors.find((a) => a.name === args.name)
+      if (author) {
+        author.born = args.setBornTo
+      }
+      return author
     }
   }
 }
