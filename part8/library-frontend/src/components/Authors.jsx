@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
+import UpdateBirthyear from "./UpdateBirthyear";
 
 const GET_AUTHORS = gql`
   query GetAuthors {
@@ -40,6 +41,7 @@ const Authors = ({ show }) => {
           ))}
         </tbody>
       </table>
+      <UpdateBirthyear show={show} authors={authors} />
     </div>
   )
 }
