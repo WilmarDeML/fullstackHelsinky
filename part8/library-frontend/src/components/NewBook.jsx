@@ -1,31 +1,46 @@
-import { useState } from 'react'
+import { useMutation, gql } from '@apollo/client'
 
-const NewBook = (props) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [published, setPublished] = useState('')
-  const [genre, setGenre] = useState('')
-  const [genres, setGenres] = useState([])
+const ADD_BOOK = gql`
+  mutation AddBook($title: String!, $published: Int!, $author: String!, $genres: [String!]!) {
+    addBook(title: $title, published: $published, author: $author, genres: $genres) {
+      title
+      author
+    }
+  }
+`
 
-  if (!props.show) {
-    return null
+const NewBook = ({ show }) => {
+  const [addBook, { data, loading, error }] = useMutation(ADD_BOOK,
+    { refetchQueries: ['GetBooks', 'GetAuthors'] }
+  )
+
+  let title, author, published, genre, genres
+
+  if (!show) return
+  if (loading) return <p>Submitting...</p>
+  if (error) return <p>Submission error! {error.message}</p>
+
+  if (data) {
+    console.log('add book success', data)
   }
 
   const submit = async (event) => {
     event.preventDefault()
-
-    console.log('add book...')
-
-    setTitle('')
-    setPublished('')
-    setAuthor('')
-    setGenres([])
-    setGenre('')
+    
+    await addBook({
+      variables: {
+        title: title.value.trim(),
+        author: author.value.trim(),
+        published: Number(published.value.trim()),
+        genres: genres.value.trim().split(' ')
+      }
+    })
   }
 
   const addGenre = () => {
-    setGenres(genres.concat(genre))
-    setGenre('')
+    if (!genre.value.trim()) return
+    genres.value += ' ' + genre.value
+    genre.value = ''
   }
 
   return (
@@ -33,36 +48,26 @@ const NewBook = (props) => {
       <form onSubmit={submit}>
         <div>
           title
-          <input
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
+          <input ref={node => { title = node }} />
         </div>
         <div>
           author
-          <input
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          <input ref={node => { author = node }} />
         </div>
         <div>
           published
-          <input
-            type="number"
-            value={published}
-            onChange={({ target }) => setPublished(target.value)}
-          />
+          <input type="number" ref={node => { published = node }} />
         </div>
         <div>
-          <input
-            value={genre}
-            onChange={({ target }) => setGenre(target.value)}
-          />
+          <input ref={node => { genre = node }} />
           <button onClick={addGenre} type="button">
             add genre
           </button>
         </div>
-        <div>genres: {genres.join(' ')}</div>
+        <div>
+          genres: 
+          <input ref={node => { genres = node }} disabled />
+        </div>
         <button type="submit">create book</button>
       </form>
     </div>
