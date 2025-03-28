@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import { PORT, MONGODB_URI } from './config.js'
 import Author from './models/author.js'
 import Book from './models/book.js'
+import { GraphQLError } from 'graphql'
 
 mongoose.set('strictQuery', false)
 
@@ -55,10 +56,28 @@ const addBook = async (_root, args) => {
   let author = await Author.findOne({ name: args.author })
   if (!author) {
     const newAuthor = new Author({ name: args.author })
-    author = await newAuthor.save()
+    author = await newAuthor.save().catch((error) => {
+      console.error(error)
+      throw new GraphQLError('Creating the author failed', {
+        extensions: {
+          code: 'BAD_AUTHOR_INPUT',
+          invalidArgs: args.author,
+          error
+        }
+      })
+    })
   }
   let newBook = new Book({ ...args, author: author.id })
-  newBook = await newBook.save()
+  newBook = await newBook.save().catch((error) => {
+    console.error(error)
+    throw new GraphQLError('Creating the book failed', {
+      extensions: {
+        code: 'BAD_BOOK_INPUT',
+        invalidArgs: args.title,
+        error
+      }
+    })
+  })
   return await newBook.populate('author')
 }
 
